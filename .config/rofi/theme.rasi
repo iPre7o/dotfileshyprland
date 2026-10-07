@@ -1,0 +1,89 @@
+/* Tema alinhado com a waybar (~/.config/waybar/style.css) */
+
+* {
+    bg:        #000000e6;
+    bg-alt:    #141414cc;
+    fg:        #ffffff;
+    fg-muted:  #888888;
+    accent:    #eeeeee;
+    urgent:    #f7768e;
+
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    background-color: @bg;
+    border:           2px;
+    border-color:     @accent;
+    border-radius:    10px;
+    width:            32%;
+    location:         center;
+    padding:          10px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    spacing:  10px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:     8px;
+    padding:            10px 12px;
+    spacing:             8px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder:       "Buscar...";
+    placeholder-color: @fg-muted;
+    text-color:        @fg;
+}
+
+listview {
+    lines:      8;
+    columns:    1;
+    spacing:    4px;
+    fixed-height: false;
+    scrollbar:  false;
+}
+
+element {
+    padding:        8px 10px;
+    border-radius:  8px;
+    spacing:        8px;
+}
+
+element-icon {
+    size: 1.1em;
+}
+
+element-text {
+    text-color: inherit;
+}
+
+element normal.normal {
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:        #000000;
+}
+
+element-text selected.normal {
+    text-color: #000000;
+}
+
+element-icon selected.normal {
+    background-color: transparent;
+}
+
+element alternate.normal {
+    text-color: @fg;
+}

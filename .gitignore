@@ -1,0 +1,24 @@
+# Backups temporários gerados pelo workflow de edição
+*.bak*
+*.bak-*
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+*.log.old
+
+# Arquivos temporários
+*.tmp
+*.swp
+*~
+
+# Credenciais e dados pessoais (nunca commitar)
+.env
+secrets/
+
+# Obsidian — vault não faz parte dos dotfiles
+# (apenas a estrutura de pastas do welcome.py é documentada no INSTALL.md)

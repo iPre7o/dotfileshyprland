@@ -1,0 +1,12 @@
+configuration {
+    modes: "drun,window,run";
+    font: "JetBrainsMono Nerd Font 11";
+    show-icons: true;
+    icon-theme: "Adwaita";
+    display-drun: "Apps";
+    display-window: "Janelas";
+    display-run: "Executar";
+    drun-display-format: "{icon} {name}";
+}
+
+@theme "theme"

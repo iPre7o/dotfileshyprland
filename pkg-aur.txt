@@ -1,0 +1,11 @@
+jdownloader2 latest-23
+onlyoffice-bin 9.4.0-1
+paru 2.1.0-2
+paru-debug 2.1.0-2
+proton-mail 1.15.0-1
+proton-pass-bin 1.40.0-1
+rustdesk 1.4.9-1
+simplescreenrecorder 0.4.4.79.ge73e-4
+vesktop 1.6.7-1
+visual-studio-code-bin 1.139.1-1
+zapzap 7.4.4-1

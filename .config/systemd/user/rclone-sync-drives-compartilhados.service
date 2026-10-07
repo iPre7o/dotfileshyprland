@@ -1,0 +1,7 @@
+[Unit]
+Description=Sincroniza lista de drives compartilhados do rclone
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/rclone-sync-drives-compartilhados

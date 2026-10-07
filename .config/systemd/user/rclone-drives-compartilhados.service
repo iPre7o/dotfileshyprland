@@ -1,0 +1,21 @@
+[Unit]
+Description=rclone mount Drives compartilhados em ~/DrivesCompartilhados
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+ExecStartPre=-%h/.local/bin/rclone-sync-drives-compartilhados --no-restart
+ExecStart=/usr/bin/rclone mount drives-compartilhados: %h/DrivesCompartilhados \
+  --read-only \
+  --volname "Drives Compartilhados" \
+  --vfs-cache-mode full \
+  --vfs-cache-max-size 5G \
+  --dir-cache-time 1h \
+  --poll-interval 1m
+ExecStop=/usr/bin/fusermount3 -uz %h/DrivesCompartilhados
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target

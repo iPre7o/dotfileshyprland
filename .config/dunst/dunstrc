@@ -1,0 +1,78 @@
+[global]
+    monitor = 0
+    follow = mouse
+
+    origin = top-right
+    offset = (8, 36)
+    width = (300, 340)
+    height = (0, 300)
+    padding = 12
+    horizontal_padding = 12
+    frame_width = 1
+    corner_radius = 8
+    separator_height = 1
+    separator_color = frame
+    gap_size = 6
+
+    font = JetBrainsMono Nerd Font 10
+    line_height = 2
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    ellipsize = end
+    word_wrap = yes
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicate_count = false
+    show_indicators = yes
+
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 48
+    enable_recursive_icon_lookup = true
+
+    sort = yes
+    indicate_hidden = yes
+    sticky_history = yes
+    history_length = 20
+    show_age_threshold = 60
+
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_corner_radius = 4
+
+    mouse_left_click = close_current
+    mouse_middle_click = close_all
+    mouse_right_click = context
+
+[urgency_low]
+    background = "#000000"
+    foreground = "#777777"
+    frame_color = "#3c3c3c"
+    highlight = "#3c3c3c"
+    timeout = 4
+
+[urgency_normal]
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#3c3c3c"
+    highlight = "#ffffff"
+    timeout = 6
+
+[urgency_critical]
+    background = "#000000"
+    foreground = "#ffffff"
+    frame_color = "#f7768e"
+    highlight = "#f7768e"
+    timeout = 0
+
+# Claude Code (via kitty): sem popup, vai pra waybar (custom/claude) e pro histórico
+[claude-code]
+    appname = kitty
+    summary = "Claude Code"
+    skip_display = yes
+    script = ~/.config/waybar/scripts/claude-notify-hook.sh
+    # chega na waybar mesmo com Não Perturbe (timer de foco)
+    override_pause_level = 100

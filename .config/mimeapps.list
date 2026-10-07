@@ -1,0 +1,14 @@
+[Default Applications]
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+x-scheme-handler/discord=vesktop.desktop
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=onlyoffice-desktopeditors.desktop
+inode/directory=thunar.desktop
+x-scheme-handler/proton-inbox=proton-mail.desktop
+video/mp4=firefox.desktop
+
+[Added Associations]
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=onlyoffice-desktopeditors.desktop;
+x-scheme-handler/proton-inbox=proton-mail.desktop;
+text/markdown=obsidian.desktop;
+video/mp4=vlc.desktop;org.kde.kdenlive.desktop;firefox.desktop;
+application/pdf=onlyoffice-desktopeditors.desktop;

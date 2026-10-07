@@ -1,0 +1,105 @@
+* {
+  font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+  font-size: 13px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#custom-ws-1, #custom-ws-2, #custom-ws-3, #custom-ws-4, #custom-ws-5,
+#custom-ws-6, #custom-ws-7, #custom-ws-8, #custom-ws-9, #custom-ws-10 {
+  padding: 0 8px;
+  font-size: 13px;
+  color: #555555;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+}
+
+#custom-ws-1.occupied, #custom-ws-2.occupied, #custom-ws-3.occupied, #custom-ws-4.occupied, #custom-ws-5.occupied,
+#custom-ws-6.occupied, #custom-ws-7.occupied, #custom-ws-8.occupied, #custom-ws-9.occupied, #custom-ws-10.occupied {
+  color: #bbbbbb;
+}
+
+#custom-ws-1.active, #custom-ws-2.active, #custom-ws-3.active, #custom-ws-4.active, #custom-ws-5.active,
+#custom-ws-6.active, #custom-ws-7.active, #custom-ws-8.active, #custom-ws-9.active, #custom-ws-10.active {
+  color: #ffffff;
+  font-weight: bold;
+  border-bottom: 2px solid #ffffff;
+}
+
+#custom-ws-1:hover, #custom-ws-2:hover, #custom-ws-3:hover, #custom-ws-4:hover, #custom-ws-5:hover,
+#custom-ws-6:hover, #custom-ws-7:hover, #custom-ws-8:hover, #custom-ws-9:hover, #custom-ws-10:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes ws-blink-red {
+  0%   { color: #f7768e; }
+  50%  { color: #3a0d14; }
+  100% { color: #f7768e; }
+}
+
+#custom-ws-1.flashing, #custom-ws-2.flashing, #custom-ws-3.flashing, #custom-ws-4.flashing, #custom-ws-5.flashing,
+#custom-ws-6.flashing, #custom-ws-7.flashing, #custom-ws-8.flashing, #custom-ws-9.flashing, #custom-ws-10.flashing {
+  animation: ws-blink-red 0.6s steps(2, start) infinite;
+}
+
+@keyframes claude-blink-white {
+  0%   { color: #ffffff; }
+  50%  { color: #333333; }
+  100% { color: #ffffff; }
+}
+
+#custom-claude {
+  padding: 0 10px;
+  color: #ffffff;
+}
+
+#custom-claude.waiting {
+  animation: claude-blink-white 3s steps(2, start) infinite;
+}
+
+/* esquerda: workspaces + app em foco; centro: horas */
+.modules-left {
+  padding-left: 6px;
+}
+
+#custom-active-app {
+  margin-left: 10px;
+  padding: 0 12px;
+  border-left: 1px solid #333333;
+  color: #bbbbbb;
+}
+
+#custom-clock {
+  padding: 0 10px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+#custom-clock.paused {
+  color: #888888;
+}
+
+#custom-clipboard {
+  padding: 0 12px 0 10px;
+  margin-right: 4px;
+  color: #bbbbbb;
+}
+
+#custom-clipboard:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* velocidade da rede (down/up), do lado das notificações */
+#custom-net-speed {
+  padding: 0 10px;
+  color: #888888;
+}
+
+#custom-net-speed.active {
+  color: #ffffff;
+}

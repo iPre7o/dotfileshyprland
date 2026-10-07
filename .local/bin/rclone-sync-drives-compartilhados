@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Sincroniza o remote "drives-compartilhados" (combine) com a lista atual de
+# drives compartilhados da conta gdrive. Só reinicia a montagem se a lista mudar.
+# Uso: rclone-sync-drives-compartilhados [--no-restart]
+set -euo pipefail
+
+REMOTE=drives-compartilhados
+SERVICE=rclone-drives-compartilhados.service
+
+json=$(timeout 60 rclone backend drives gdrive: -q) || { echo "Falha ao consultar drives (sem internet?)"; exit 0; }
+
+novo=$(python3 -c '
+import json, sys, re
+vistos = {}
+out = []
+for x in sorted(json.load(sys.stdin), key=lambda d: d["name"].lower()):
+    n = x["name"].replace("©", "").replace("/", "-").replace("\"", "")
+    n = re.sub(r"\s*\(.*?\)", "", n)          # remove "(FALTANDO CONTEÚDOS)" etc.
+    n = re.split(r" - ", n)[0]                # remove avisos depois de " - "
+    n = re.sub(r"\s+MACRO$", "", n)
+    n = re.sub(r"\s+", " ", n).strip() or x["id"]
+    if n in vistos:                           # nomes repetidos ganham sufixo
+        vistos[n] += 1
+        n = f"{n} ({vistos[n]})"
+    else:
+        vistos[n] = 1
+    out.append("\"%s=gdrive,team_drive=%s,root_folder_id=:\"" % (n, x["id"]))
+print(" ".join(out))
+' <<<"$json")
+
+[ -n "$novo" ] || { echo "Nenhum drive retornado; mantendo configuração atual."; exit 0; }
+
+atual=$(rclone config dump | python3 -c "import json,sys; print(json.load(sys.stdin).get('$REMOTE', {}).get('upstreams', ''))")
+
+if [ "$novo" = "$atual" ]; then
+    echo "Lista de drives compartilhados sem alterações."
+    exit 0
+fi
+
+rclone config create "$REMOTE" combine upstreams "$novo" >/dev/null
+echo "Lista atualizada: $(grep -o '=gdrive' <<<"$novo" | wc -l) drives."
+
+if [ "${1:-}" != "--no-restart" ] && systemctl --user is-active --quiet "$SERVICE"; then
+    systemctl --user restart "$SERVICE"
+fi
