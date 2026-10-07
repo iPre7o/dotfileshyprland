@@ -69,8 +69,25 @@
 │   └── theme.rasi
 └── fastfetch/
     └── config.jsonc
+.config/
+├── Kvantum/kvantum.kvconfig  # tema Qt (KvGnomeDark)
+├── qt5ct/qt5ct.conf          # aparência Qt5 (Fusion + paleta B&W)
+├── qt6ct/qt6ct.conf          # aparência Qt6
+├── autostart/                # nm-applet
+├── mimeapps.list             # associações de arquivos
+├── user-dirs.dirs            # pastas XDG em português
+└── systemd/user/
+    ├── rclone-gdrive.service
+    ├── rclone-drives-compartilhados.service
+    ├── rclone-sync-drives-compartilhados.{service,timer}
+    └── dbus-broker.service.d/limits.conf   # fix "too many open files"
+.local/bin/
+├── rclone-sync-drives-compartilhados       # sincroniza drives compartilhados
+└── dbus-watch.sh                           # diagnóstico de fds dbus
 sddm/
 └── theme.conf                # tema do login manager (blackarch)
+.zshrc / .bashrc / .bash_profile           # shell configs
+pkg-explicit.txt / pkg-aur.txt             # lista de pacotes para reinstalação
 ```
 
 ## Atalhos de teclado principais

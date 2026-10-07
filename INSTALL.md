@@ -270,11 +270,134 @@ sudo pacman -S adwaita-icon-theme
 
 ---
 
+## 15. Shell — zsh
+
+```bash
+# Instalar zsh e plugins
+sudo pacman -S zsh zsh-autosuggestions zsh-syntax-highlighting
+
+# Definir como shell padrão
+chsh -s $(which zsh)
+
+# Copiar configs
+cp .zshrc ~/.zshrc
+cp .bashrc ~/.bashrc
+cp .bash_profile ~/.bash_profile
+```
+
+---
+
+## 16. Temas Qt (Kvantum, qt5ct, qt6ct)
+
+```bash
+sudo pacman -S kvantum qt5ct qt6ct
+
+cp -r .config/Kvantum/ ~/.config/
+cp -r .config/qt5ct/   ~/.config/
+cp -r .config/qt6ct/   ~/.config/
+```
+
+> Configura a aparência de apps Qt para usar o estilo Fusion com paleta preto e branco.
+
+---
+
+## 17. Associações de arquivos e pastas XDG
+
+```bash
+cp .config/mimeapps.list    ~/.config/
+cp .config/user-dirs.dirs   ~/.config/
+cp .config/user-dirs.locale ~/.config/
+
+# Criar as pastas esperadas
+xdg-user-dirs-update
+mkdir -p ~/Imagens/Screenshots
+```
+
+---
+
+## 18. Scripts locais (~/.local/bin)
+
+```bash
+mkdir -p ~/.local/bin
+cp -r .local/bin/ ~/.local/
+chmod +x ~/.local/bin/*
+```
+
+Scripts incluídos:
+- `rclone-sync-drives-compartilhados` — sincroniza lista de Google Drives compartilhados
+- `dbus-watch.sh` — monitora fds do dbus-broker (diagnóstico)
+
+---
+
+## 19. Serviços systemd do usuário (rclone)
+
+```bash
+mkdir -p ~/.config/systemd/user/dbus-broker.service.d
+cp -r .config/systemd/ ~/.config/
+systemctl --user daemon-reload
+
+# Aumento do limite de file descriptors do dbus (evita crash por "Too many open files")
+# (já incluído em .config/systemd/user/dbus-broker.service.d/limits.conf)
+
+# Habilitar serviços rclone
+systemctl --user enable rclone-gdrive.service
+systemctl --user enable rclone-drives-compartilhados.service
+systemctl --user enable rclone-sync-drives-compartilhados.timer
+```
+
+> **Atenção:** Os serviços rclone só funcionam após configurar o remote `gdrive`. Veja seção 20.
+
+---
+
+## 20. Configurar rclone (Google Drive)
+
+```bash
+# Instalar rclone
+sudo pacman -S rclone fuse3
+
+# Criar remotes interativamente
+rclone config
+# → Criar remote chamado 'gdrive' do tipo 'drive' (Google Drive)
+# → Autenticar via OAuth no navegador
+
+# Testar montagem manual
+rclone mount gdrive: ~/GoogleDrive --vfs-cache-mode full &
+
+# Após autenticado, iniciar serviços automáticos
+systemctl --user start rclone-gdrive.service
+
+# Sincronizar lista de drives compartilhados
+~/.local/bin/rclone-sync-drives-compartilhados
+systemctl --user start rclone-drives-compartilhados.service
+```
+
+---
+
+## 21. Autostart (nm-applet)
+
+```bash
+cp -r .config/autostart/ ~/.config/
+# nm-applet inicia automaticamente via Hyprland e aparece na bandeja do waybar
+```
+
+---
+
 ## Ordem recomendada após instalação limpa
 
-1. Instalar pacotes (seções 2–3)
-2. Ativar serviços (seção 4)
-3. Copiar dotfiles (seções 5–7)
-4. Ajustar caminhos (seção 9)
-5. Testar componentes individualmente (seção 11)
-6. Reiniciar → logar via SDDM → Hyprland inicia automaticamente
+1. Instalar pacotes oficiais (seção 2)
+2. Instalar AUR + helper (seção 3)
+3. Instalar zsh e definir como shell padrão (seção 15)
+4. Ativar serviços do sistema (seção 4)
+5. Configurar tema do SDDM (seção 5)
+6. Copiar dotfiles principais (seção 6)
+7. Copiar Qt/Kvantum (seção 16)
+8. Copiar shell configs (seção 15)
+9. Copiar mimeapps e user-dirs (seção 17)
+10. Copiar local bin scripts (seção 18)
+11. Copiar serviços systemd (seção 19)
+12. Tornar scripts executáveis (seção 7)
+13. Ajustar caminhos para seu usuário (seção 9)
+14. Configurar rclone (seção 20) — opcional, para Google Drive
+15. Criar Obsidian Vault mínimo (seção 13)
+16. Testar componentes individualmente (seção 11)
+17. Reiniciar → logar via SDDM → Hyprland inicia automaticamente

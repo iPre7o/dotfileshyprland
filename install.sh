@@ -85,6 +85,44 @@ cp -r "$DOTFILES_DIR/.config/fastfetch/" "$USER_HOME/.config/"
 cp -r "$DOTFILES_DIR/.config/gtk-3.0/"  "$USER_HOME/.config/"
 cp -r "$DOTFILES_DIR/.config/gtk-4.0/"  "$USER_HOME/.config/"
 
+# Qt / Kvantum temas
+[[ -d "$DOTFILES_DIR/.config/Kvantum" ]]  && cp -r "$DOTFILES_DIR/.config/Kvantum/"  "$USER_HOME/.config/"
+[[ -d "$DOTFILES_DIR/.config/qt5ct" ]]    && cp -r "$DOTFILES_DIR/.config/qt5ct/"    "$USER_HOME/.config/"
+[[ -d "$DOTFILES_DIR/.config/qt6ct" ]]    && cp -r "$DOTFILES_DIR/.config/qt6ct/"    "$USER_HOME/.config/"
+
+# mimeapps e user-dirs
+[[ -f "$DOTFILES_DIR/.config/mimeapps.list" ]]    && cp "$DOTFILES_DIR/.config/mimeapps.list"    "$USER_HOME/.config/"
+[[ -f "$DOTFILES_DIR/.config/user-dirs.dirs" ]]   && cp "$DOTFILES_DIR/.config/user-dirs.dirs"   "$USER_HOME/.config/"
+[[ -f "$DOTFILES_DIR/.config/user-dirs.locale" ]] && cp "$DOTFILES_DIR/.config/user-dirs.locale" "$USER_HOME/.config/"
+
+# autostart
+[[ -d "$DOTFILES_DIR/.config/autostart" ]] && cp -r "$DOTFILES_DIR/.config/autostart/" "$USER_HOME/.config/"
+
+# Systemd user services (rclone + dbus-broker override)
+if [[ -d "$DOTFILES_DIR/.config/systemd" ]]; then
+  mkdir -p "$USER_HOME/.config/systemd/user/dbus-broker.service.d"
+  cp -r "$DOTFILES_DIR/.config/systemd/" "$USER_HOME/.config/"
+  systemctl --user daemon-reload
+  log "Habilitando serviços rclone..."
+  systemctl --user enable rclone-gdrive.service
+  systemctl --user enable rclone-drives-compartilhados.service
+  systemctl --user enable rclone-sync-drives-compartilhados.timer
+  warn "rclone precisa ser configurado manualmente antes de iniciar os serviços."
+  warn "Execute: rclone config  (crie o remote 'gdrive' do tipo 'drive')"
+fi
+
+# Scripts locais (~/.local/bin)
+if [[ -d "$DOTFILES_DIR/.local/bin" ]]; then
+  mkdir -p "$USER_HOME/.local/bin"
+  cp -r "$DOTFILES_DIR/.local/bin/" "$USER_HOME/.local/"
+  chmod +x "$USER_HOME/.local/bin/"* 2>/dev/null || true
+fi
+
+# Shell (zsh / bash)
+[[ -f "$DOTFILES_DIR/.zshrc" ]]       && cp "$DOTFILES_DIR/.zshrc"       "$USER_HOME/.zshrc"
+[[ -f "$DOTFILES_DIR/.bashrc" ]]      && cp "$DOTFILES_DIR/.bashrc"      "$USER_HOME/.bashrc"
+[[ -f "$DOTFILES_DIR/.bash_profile" ]] && cp "$DOTFILES_DIR/.bash_profile" "$USER_HOME/.bash_profile"
+
 # ─── 6. Tornar scripts executáveis ───────────────────────────────────────────
 log "Ajustando permissões dos scripts..."
 chmod +x "$USER_HOME/.config/hypr/scripts/"*.sh 2>/dev/null || true
@@ -133,3 +171,8 @@ echo "  3. Reinicie e selecione Hyprland no SDDM"
 echo ""
 echo "  Para testar sem reiniciar: pressione Ctrl+Alt+F2 e execute: Hyprland"
 echo "  Log do painel: ~/.cache/welcome.log"
+echo ""
+echo "  Serviços rclone (Google Drive):"
+echo "  1. Configure: rclone config  (crie remote 'gdrive', tipo 'drive')"
+echo "  2. Ative:     systemctl --user start rclone-gdrive.service"
+echo "  3. Sync:      ~/.local/bin/rclone-sync-drives-compartilhados"
